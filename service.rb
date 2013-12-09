@@ -47,6 +47,7 @@ end
 def self.products_complaints
  [
  {
+  id: 1,
   name: "Canon Mark 2 D5",
   description: "koko",
   currency_id: 1,
@@ -57,7 +58,7 @@ def self.products_complaints
 ]
 end
 def self.login_success
-{token: Random.rand(1000000)}
+{status: true, auth_token: Random.rand(1000000)}
 end
 end
 
@@ -69,10 +70,12 @@ end
 post '/v1/users/sign_in.json' do
 Responder.login_success.to_json
 end
-
+get '/v1/orders/1' do
+Responder.orders_complaints.to_json
+end
 # Dynamic routes 
 def resource(name)
- eval "get '/v1/#{name}.json' do; Responder.#{name}_complaints.to_json; end"
+ eval "get '/v1/#{name}' do; Responder.#{name}_complaints.to_json; end"
 end
 
 resource :products
